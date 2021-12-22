@@ -1,0 +1,25 @@
+.c-b-text{
+    font-size: 20px;
+}
+
+.arrow-btn-left,.arrow-btn-right{
+    position: absolute;
+    cursor: pointer;
+    z-index: 200;
+}
+
+.arrow-btn-right{
+    right: 30px;
+}
+
+.arrow-btn-left{
+    left: 30px;
+}
+
+.state-name{
+    color:#0000ff;
+}
+
+.state-name:hover{
+    color: #ff0000;
+}

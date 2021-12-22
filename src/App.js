@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import { Constants } from './utils/const';
+import { useEffect } from 'react';
+import {Route,BrowserRouter as Router,Routes} from 'react-router-dom';
+import Home from './pages/home/home';
+import DetailPage from './pages/detail/detail';
+import MainPanel from './pages/panel/panel';
+import { connect } from 'react-redux';
+import { subscribe } from './redux/subscribe';
+import action from './redux/action';
+function RouterSection(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section>
+      <Routes>
+            <Route path="/" exact element={<Home />}></Route>
+            <Route path="detail" exact element={<DetailPage/>} />
+            <Route path="*" element={<div>404 Not Found</div>}> </Route>
+      </Routes>
+    </section>
+  );
+}
+function App(props) {
+  useEffect(()=>{
+     props.getCovidData('GET',Constants.covidDataUrl,null,action.getCovidData);
+     props.getCovidTimeData('GET',Constants.covidDataTimeSeries,null,action.getCovidTimeData);
+  },[]);
+  return (
+    <Router>
+      <MainPanel routerSection={<RouterSection/>}></MainPanel>
+    </Router>
   );
 }
 
-export default App;
+export default connect((state)=>{
+    return {
+      covidData:state.covidData,
+      covidTimeData:state.covidTimeData
+    }
+},
+{
+    getCovidData:subscribe,
+    getCovidTimeData:subscribe
+})(App);
