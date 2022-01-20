@@ -56,6 +56,12 @@ function DetailPage(props){
         makeListData(searchDate,district);
     },[]);
 
+    useEffect(()=>{
+        setStateData(covidData.data[stateCode]);
+        setStateDateData(covidTimeData?.data[stateCode]?.dates);
+        setDistrict('');   
+    },[covidData,covidTimeData]);
+
     // useEffect(()=>{
     //     sortListData();
     // },[order]);
@@ -162,7 +168,7 @@ function DetailPage(props){
                         setSearchDate('');
                         makeListData('',e.currentTarget.value);
                     }}>
-                    <option key="s__1" value="" >Select District</option>
+                    <option key="s__1" value="" >All Districts</option>
                     {
                         Object.keys(stateData.districts).map((d,i)=>(
                             <option key={'s_'+i}>{d}</option>
@@ -222,10 +228,10 @@ function DetailPage(props){
             { 
               (paginatedData.length!=0) &&  <nav className="d-flex justify-content-center" aria-label="Page navigation">
                     <ul className="pagination">
-                        <li className={((page==1)?["page-item","disabled"]:["page-item"]).join(" ")} ><a class="page-link" href="javascript:void(0);" onClick={()=>{
+                        <li className={((page==1)?["page-item","disabled"]:["page-item"]).join(" ")} ><a class="page-link" href="#" onClick={()=>{
                             setPage(page-1);
                         }}>Previous</a></li>
-                        <li className="page-item"><a class="page-link" href="javascript:void(0);">{page}</a></li>
+                        <li className="page-item"><a class="page-link" href="#">{page}</a></li>
                         <li className={((((page*size)+size)>listData.length)?["page-item","disabled"]:["page-item"]).join(" ")}><a class="page-link" href="javascript:void(0);" onClick={()=>{
                             setPage(page+1);
                         }}>Next</a></li>
