@@ -23,11 +23,16 @@ function App(props) {
      props.getCovidData('GET',Constants.covidDataUrl,null,action.getCovidData);
      props.getCovidTimeData('GET',Constants.covidDataTimeSeries,null,action.getCovidTimeData);
   },[]);
-  return (
-    <Router>
-      <MainPanel routerSection={<RouterSection/>}></MainPanel>
-    </Router>
-  );
+  if(!props.covidData || !props.covidTimeData){
+    return <div>Loading Data...</div>
+  }else{
+    return (
+      <Router>
+        <MainPanel routerSection={<RouterSection/>}></MainPanel>
+      </Router>
+    );
+  }
+  
 }
 
 export default connect((state)=>{

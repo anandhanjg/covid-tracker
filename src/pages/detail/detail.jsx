@@ -38,7 +38,7 @@ function DetailPage(props){
     const [stateCode,setStateCode]=useState(searchParams.get('sc') || null);
     let [covidData,covidTimeData]=useSelector((state)=>[state.covidData,state.covidTimeData]);
     const [stateData,setStateData]=useState(covidData.data[stateCode]);
-    const [stateDateData,setStateDateData]=useState(covidTimeData.data[stateCode].dates);
+    const [stateDateData,setStateDateData]=useState(covidTimeData?.data[stateCode]?.dates);
     const [district,setDistrict] = useState('');
     const [listData,setListData]=useState([]);
     const [paginatedData,setPaginatedData]=useState([]);
@@ -130,7 +130,7 @@ function DetailPage(props){
                 setListData([]);
             }        
         }else{
-            let dt=Object.keys(stateDateData).map((dt,i)=>({...stateDateData[dt],date:dt}))
+            let dt=Object.keys(stateDateData || []).map((dt,i)=>({...stateDateData[dt],date:dt}))
             setListData(dt)
         }
     }
@@ -139,6 +139,8 @@ function DetailPage(props){
         return (
             <h1>Invalid Page.</h1>
         )
+    }else if(!covidData || !covidTimeData){
+        return (<div>Loading Data...</div>)
     }else{
         return (
             <div>
